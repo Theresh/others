@@ -15,7 +15,8 @@ v = scipy.vectorize(complex)
 v = v(np.random.normal(0, variance, int(simlen)) , np.random.normal(0, variance, int(simlen)))
 k = np.array(range(0 , int(simlen))) 
 
-A = np.linspace(1,5,simlen)
+A = np.linspace(0,10,simlen)
+A= 10**(A/10.0)
 
 #print(k)
 #theta = np.random.uniform(0,2*np.pi)
@@ -29,7 +30,7 @@ def R_k(k,r):
 def estimate(A):
 	delf = int(5e6)
 	r = scipy.vectorize(complex)
-	r = A*np.exp(r(np.zeros(int(simlen)),2*math.pi*delf*k*Ts + theta)) + v 
+	r = A*np.exp(r(np.zeros(int(simlen)),2*math.pi*delf*k*Ts + theta)) + v *(0.707)
 	#print abs(r)
 	#print(r)
 	M = 18
@@ -44,10 +45,10 @@ def estimate(A):
 	return abs(f_hat-delf)/delf
 
 err = scipy.vectorize(estimate)
-plt.title("SNR vs Frequency Error with fixed frequency offset")
+#plt.title("SNR vs Frequency Error with fixed frequency offset")
 plt.plot(A, err(A),label="QPSK Mapping,$\Delta f =5 MHz$")
-plt.xlabel('$SNR$')
-plt.ylabel('Error= $(\\frac{\Delta_f - \hat{f}}{\Delta_f})$')
+plt.xlabel('$\\frac{E_s}{N_0}$ (dB)')
+plt.ylabel('$(\\frac{\Delta_f - \hat{f}}{\Delta_f})$')
 plt.legend(loc='best')
 plt.grid()
 plt.savefig("./frequencyestiamtion_best_error_vs_snr.eps")
